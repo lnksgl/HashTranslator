@@ -1,0 +1,14 @@
+syntax = "proto3";
+package authorization;
+
+message CreateRequest {
+    string hashes = 1;
+}
+
+message CreateResponse {
+    string id = 1;
+}
+
+service CreateRequestService {
+    rpc createRequest(CreateRequest) returns (CreateResponse);
+}

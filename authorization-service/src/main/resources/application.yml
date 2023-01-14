@@ -1,0 +1,28 @@
+spring:
+  application:
+    debug: true
+    name: authorization
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:15433/test-task
+    username: postgres
+    password: postgre
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  flyway:
+    enabled: false
+
+server:
+  port: 8081
+
+app.jwtSecret: secretKeys
+app.jwtSalt: salt
+app.jwtExpiration: 86400000
+
+grpc:
+  client:
+    hash-translator:
+      address: static://localhost:9091
+      negotiationType: plaintext

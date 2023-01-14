@@ -1,0 +1,17 @@
+spring:
+  application:
+    debug: true
+    name: hashtranslator
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: hashtranslator
+
+
+server:
+  port: 8082
+
+grpc:
+  server:
+    port: 9091

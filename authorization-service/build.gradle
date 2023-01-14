@@ -1,0 +1,71 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'org.springframework.boot' version '2.5.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "com.google.protobuf" version "0.8.19"
+    id "org.flywaydb.flyway" version "6.2.3"
+}
+
+repositories {
+    mavenCentral()
+}
+
+group = 'authorization'
+version = '0.0.1'
+
+sourceCompatibility = '1.8'
+
+ext {
+    jsonwebtoken_version = '0.11.5'
+    protobuf_version = '3.21.2'
+    grpc_version = '1.47.0'
+    grpc_server_version = '2.13.1.RELEASE'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    implementation 'org.flywaydb:flyway-core'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation "io.jsonwebtoken:jjwt-api:${jsonwebtoken_version}"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jsonwebtoken_version}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jsonwebtoken_version}"
+
+    implementation "io.grpc:grpc-netty:${grpc_version}"
+    implementation("net.devh:grpc-client-spring-boot-starter:${grpc_server_version}") {
+        exclude group: 'io.grpc', module: 'grpc-netty-shaded'
+    }
+}
+
+flyway {
+    url = 'jdbc:postgresql://localhost:15433/test-task'
+    driver = 'org.postgresql.Driver'
+    user = 'postgres'
+    password = 'postgre'
+    locations = [
+            'classpath:db/migration'
+    ]
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobuf_version}"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpc_version}"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+package authorization;
+
+message GetDecryptedHashRequest {
+    string id = 1;
+}
+
+message GetDecryptedHashResponse {
+    string id = 1;
+    string hashes = 2;
+    string decrypted = 3;
+}
+
+service GetDecryptedHashService {
+    rpc getDecodeHash(GetDecryptedHashRequest) returns (GetDecryptedHashResponse);
+}
